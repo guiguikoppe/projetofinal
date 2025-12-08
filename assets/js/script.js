@@ -1,58 +1,54 @@
-// Seleção dos elementos principais
-const titulo = document.getElementById("titulo");
-const descricao = document.getElementById("descricao");
-const imagem = document.getElementById("imagem");
+//============servidor funcionando=======================
+const express = require('express');
+const app = express();
+const port = 3000;
 
-const btnItalia = document.getElementById("btnItalia");
-const btnJapao = document.getElementById("btnJapao");
-const btnMexico = document.getElementById("btnMexico");
-
-const btnTema = document.getElementById("btnTema");
-const body = document.body;
-
-//   troca do conteúdo do card 
-function atualizarCard(novoTitulo, novaDesc, novaImg) {
-  titulo.textContent = novoTitulo;
-  descricao.textContent = novaDesc;
-  imagem.src = novaImg;
-
-  // animação de fade suave
-  imagem.classList.remove("fade");
-  imagem.classList.add("fade");
-}
-
-//  botões dos países 
-btnItalia.addEventListener("click", () => {
-  atualizarCard(
-    "Pizza Italiana",
-    "A clássica pizza napolitana, feita com molho de tomate fresco e queijo de qualidade.",
-    "img/italia.jpg"
-  );
+// Rota principal
+app.get('/', (req, res) => {
+    res.send("servidor rodando");
 });
 
-btnJapao.addEventListener("click", () => {
-  atualizarCard(
-    "Sushi Japonês",
-    "Pequenos pedaços de arte culinária feitos com arroz temperado e peixe fresco.",
-    "img/japao.jpg"
-  );
+//============rota da PokeAPI=============================
+app.get('/tipo/:nomeTipo', async (req, res) => {
+    try {
+        const tipo = req.params.nomeTipo;
+
+        // 1. pegar todos os pokémons desse tipo
+        const response = await fetch(`https://pokeapi.co/api/v2/type/${tipo}`);
+        const data = await response.json();
+
+        // 2. pegar apenas 12
+        const primeiros12 = data.pokemon.slice(0, 12);
+
+        // 3. buscar detalhes de cada pokémon
+        const detalhes = await Promise.all(
+            primeiros12.map(async (p) => {
+                const respPokemon = await fetch(p.pokemon.url);
+                const dadosPokemon = await respPokemon.json();
+
+                return {
+                    id: dadosPokemon.id,
+                    nome: dadosPokemon.name,
+                    imagem: dadosPokemon.sprites.front_default,
+                    tipos: dadosPokemon.types.map(t => t.type.name),
+					peso: dadosPokemon.weight,
+					altura: dadosPokemon.height,
+					ataque: dadosPokemon.stats[1].base_stat,
+                    defesa: dadosPokemon.stats[2].base_stat
+                };
+            })
+        );
+
+        res.json(detalhes);
+
+    } catch (error) {
+        res.status(500).send("Erro ao buscar pokémons do tipo");
+    }
 });
 
-btnMexico.addEventListener("click", () => {
-  atualizarCard(
-    "Taco Mexicano",
-    "Tortilla crocante recheada com carne temperada, alface, queijo e muito sabor!",
-    "img/mexico.jpg"
-  );
-});
+//=========================================================
 
-//  Tema Claro/Escuro 
-btnTema.addEventListener("click", () => {
-  if (body.classList.contains("claro")) {
-    body.classList.replace("claro", "escuro");
-    btnTema.textContent = "Tema Claro";
-  } else {
-    body.classList.replace("escuro", "claro");
-    btnTema.textContent = "Tema Escuro";
-  }
+
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });
