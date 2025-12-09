@@ -10,10 +10,7 @@ async function criarCards() {
     //traduzir os nomes
 
     function traduzir() {
-      if (tipo == "normal") return "normal";
-      else if (tipo == "fire") return "fogo";
-      else if (tipo == "water") return "água";
-      else if (tipo == "electric") return "elétrico";
+ if (tipo == "fire") return "fogo";
       else return "";
     }
 
