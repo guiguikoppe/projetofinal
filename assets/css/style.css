@@ -1,0 +1,45 @@
+.card {
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card.expandido {
+    transform: scale(1); /* aumenta o tamanho */
+    z-index: 10;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.info-extra {
+    margin-top: 10px;
+    font-size: 14px;
+}
+/* ======= Tema Claro (padrão) ======= */
+body {
+    background: #f5f5f5;
+    color: #222;
+    transition: 0.3s;
+}
+
+/* ======= Tema Escuro ======= */
+body.dark {
+    background: #1d1d1d;
+    color: #f5f5f5;
+}
+
+/* Estilo do botão */
+#tema-btn {
+    padding: 10px 20px;
+    margin: 20px;
+    background: #0080ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+body.dark #tema-btn {
+    background: #444;
+}

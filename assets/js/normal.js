@@ -2,7 +2,7 @@ async function criarCards() {
   const container = document.getElementById("container");
 
   //rocha, fantasma, dragao e aço -> tipos
-  const tipos = ["normal", "fire", "water", "electric"];
+  const tipos = ["normal"];
 
   for (const tipo of tipos) {
     const titulo = document.createElement("h2");
@@ -11,9 +11,6 @@ async function criarCards() {
 
     function traduzir() {
       if (tipo == "normal") return "normal";
-      else if (tipo == "fire") return "fogo";
-      else if (tipo == "water") return "água";
-      else if (tipo == "electric") return "elétrico";
       else return "";
     }
 
