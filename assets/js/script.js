@@ -1,54 +1,54 @@
-//============servidor funcionando=======================
-const express = require('express');
-const app = express();
-const port = 3000;
+async function criarCards() {
+	const container = document.getElementById("container");
 
-// Rota principal
-app.get('/', (req, res) => {
-    res.send("servidor rodando");
-});
+	//rocha, fantasma, dragao e aço -> tipos
+	const tipos = ["normal", "fire", "water", "electric"];
 
-//============rota da PokeAPI=============================
-app.get('/tipo/:nomeTipo', async (req, res) => {
-    try {
-        const tipo = req.params.nomeTipo;
+	for (const tipo of tipos) {
+		const titulo = document.createElement("h2");
 
-        // 1. pegar todos os pokémons desse tipo
-        const response = await fetch(`https://pokeapi.co/api/v2/type/${tipo}`);
-        const data = await response.json();
-
-        // 2. pegar apenas 12
-        const primeiros12 = data.pokemon.slice(0, 12);
-
-        // 3. buscar detalhes de cada pokémon
-        const detalhes = await Promise.all(
-            primeiros12.map(async (p) => {
-                const respPokemon = await fetch(p.pokemon.url);
-                const dadosPokemon = await respPokemon.json();
-
-                return {
-                    id: dadosPokemon.id,
-                    nome: dadosPokemon.name,
-                    imagem: dadosPokemon.sprites.front_default,
-                    tipos: dadosPokemon.types.map(t => t.type.name),
-					peso: dadosPokemon.weight,
-					altura: dadosPokemon.height,
-					ataque: dadosPokemon.stats[1].base_stat,
-                    defesa: dadosPokemon.stats[2].base_stat
-                };
-            })
-        );
-
-        res.json(detalhes);
-
-    } catch (error) {
-        res.status(500).send("Erro ao buscar pokémons do tipo");
-    }
-});
-
-//=========================================================
+		//traduzir os nomes
 
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
+		function traduzir() {
+			if (tipo == "normal") return "normal";
+			else if (tipo == "fire") return "fogo";
+			else if (tipo == "water") return "água";
+			else if (tipo == "electric") return "elétrico";
+			else return "";
+		}
+
+		titulo.textContent = `${traduzir().toUpperCase()}`;
+		titulo.classList.add("titulo-tipos");
+		container.appendChild(titulo);
+
+		const resp = await fetch(`https://pokeapi.co/api/v2/type/${tipo}`);
+		const data = await resp.json();
+
+		const lista = data.pokemon.slice(0, 12);
+
+		const area = document.createElement("div");
+		area.classList.add("grupo-tipo");
+
+		for (const p of lista) {
+			const resp2 = await fetch(p.pokemon.url);
+			const det = await resp2.json();
+
+			const card = document.createElement("div");
+			card.classList.add("card");
+
+			card.innerHTML = `
+			<h4>#${det.id}</h4>
+			<img src="${det.sprites.front_default}">
+			<h3>${det.name}</h3>
+		      `;
+
+			area.appendChild(card);
+		}
+
+		container.appendChild(area);
+	}
+}
+
+// executa assim que a pagina carregar
+criarCards();
