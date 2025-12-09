@@ -3,33 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokedex pro</title>
+    <title>Pokédex Pro</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <main>
-        <h1 id="titulo">POKEDÉX PRO</h1><button id="tema-btn">🌙 Modo Escuro</button>       
-        <p id="descricao">ESCOLHA O TIPO DO POKÉMON</p>
 
+    <!-- MENU SUPERIOR -->
+    <header>
+        <h1 class="logo">POKEDÉX PRO</h1>
 
-        <div class="botoes">
+        <nav>
+            <ul class="menu">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Fogo</a></li>
+                <li><a href="#">Água</a></li>
+                <li><a href="#">Elétrico</a></li>
+                <li><a href="#">Normal</a></li>
+            </ul>
+        </nav>
 
-           <button class="button-normal" onclick="window.location.href='normal.html'">NORMAL</button>
-           <button class="button-fogo" onclick="window.location.href='fogo.html'">FOGO</button>
-           <button class="button-agua" onclick="window.location.href='agua.html'">ÁGUA</button>
-           <button class="button-eletrico" onclick="window.location.href='eletrico.html'">ELÉTRICO</button>
+        <button id="menuBtn">☰</button>
+    </header>
+
+    <!-- IMAGEM DESTACADA -->
+    <section class="banner">
+        <img src="https://i.imgur.com/HVnBmSg.jpeg" alt="Pokémon Cards">
+        <p class="slogan">UM APP PARA VERDADEIROS TREINADORES</p>
+    </section>
+
+    <!-- SOBRE O APP -->
+    <section class="section">
+        <h2 class="titulo">Sobre o APP</h2>
+
+        <p>
+            O Pokédex Pro foi criado para ajudar treinadores de todas as regiões a organizarem, evoluírem e acompanharem suas aventuras no mundo Pokémon.
+        </p>
+        <p>
+            O objetivo do projeto é oferecer uma plataforma simples, intuitiva e totalmente interativa, onde o treinador pode gerenciar seus Pokémons, registrar batalhas, planejar treinos e acompanhar seu progresso como treinador.
+        </p>
+    </section>
+
+    <!-- SOBRE O GRUPO -->
+    <section class="section">
+        <h2 class="titulo">Sobre o Grupo</h2>
+
+        <p>
+            Nosso grupo desenvolveu este projeto com o objetivo de criar uma Pokédex moderna, prática e fácil de usar para todos os treinadores Pokémon. Cada integrante contribuiu com suas habilidades para que o trabalho ficasse completo, organizado e funcional.
+        </p>
+        <p>
+            Durante o desenvolvimento, aprendemos mais sobre programação, organização de código, APIs, design de interface e trabalho em equipe. Buscamos criar uma experiência visual agradável e intuitiva, permitindo que qualquer pessoa possa consultar informações de Pokémon de forma rápida.
+        </p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-box">  
+            <p class="footer-title">Namedly</p>
+            <p class="footer-text">Descrição do seu site. Insira seu company desc.</p>
         </div>
 
-         <div class="btntema">
-
-
-
-        
+        <div class="footer-box">
+            <p class="footer-title">Produtos</p>
+            <p class="footer-item">Serviços</p>
+            <p class="footer-item">Ferramentas</p>
+            <p class="footer-item">Planos</p>
         </div>
 
-        <div id="container"></div>
+        <div class="footer-box">
+            <p class="footer-title">Links</p>
+            <p class="footer-item">Sobre</p>
+            <p class="footer-item">Equipe</p>
+            <p class="footer-item">Contato</p>
+        </div>
 
-    </main>
-    <script src="assets/js/script.js"></script>
+        <div class="footer-box">
+            <p class="footer-title">Suporte</p>
+            <p class="footer-item">FAQ</p>
+            <p class="footer-item">Central</p>
+            <p class="footer-item">Relatar Problema</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
