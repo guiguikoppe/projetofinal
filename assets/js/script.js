@@ -1,58 +1,54 @@
-// Seleção dos elementos principais
-const titulo = document.getElementById("titulo");
-const descricao = document.getElementById("descricao");
-const imagem = document.getElementById("imagem");
+async function criarCards() {
+	const container = document.getElementById("container");
 
-const btnItalia = document.getElementById("btnItalia");
-const btnJapao = document.getElementById("btnJapao");
-const btnMexico = document.getElementById("btnMexico");
+	//rocha, fantasma, dragao e aço -> tipos
+	const tipos = ["normal", "fire", "water", "electric"];
 
-const btnTema = document.getElementById("btnTema");
-const body = document.body;
+	for (const tipo of tipos) {
+		const titulo = document.createElement("h2");
 
-//   troca do conteúdo do card 
-function atualizarCard(novoTitulo, novaDesc, novaImg) {
-  titulo.textContent = novoTitulo;
-  descricao.textContent = novaDesc;
-  imagem.src = novaImg;
+		//traduzir os nomes
 
-  // animação de fade suave
-  imagem.classList.remove("fade");
-  imagem.classList.add("fade");
+
+		function traduzir() {
+			if (tipo == "normal") return "normal";
+			else if (tipo == "fire") return "fogo";
+			else if (tipo == "water") return "água";
+			else if (tipo == "electric") return "elétrico";
+			else return "";
+		}
+
+		titulo.textContent = `${traduzir().toUpperCase()}`;
+		titulo.classList.add("titulo-tipos");
+		container.appendChild(titulo);
+
+		const resp = await fetch(`https://pokeapi.co/api/v2/type/${tipo}`);
+		const data = await resp.json();
+
+		const lista = data.pokemon.slice(0, 12);
+
+		const area = document.createElement("div");
+		area.classList.add("grupo-tipo");
+
+		for (const p of lista) {
+			const resp2 = await fetch(p.pokemon.url);
+			const det = await resp2.json();
+
+			const card = document.createElement("div");
+			card.classList.add("card");
+
+			card.innerHTML = `
+			<h4>#${det.id}</h4>
+			<img src="${det.sprites.front_default}">
+			<h3>${det.name}</h3>
+		      `;
+
+			area.appendChild(card);
+		}
+
+		container.appendChild(area);
+	}
 }
 
-//  botões dos países 
-btnItalia.addEventListener("click", () => {
-  atualizarCard(
-    "Pizza Italiana",
-    "A clássica pizza napolitana, feita com molho de tomate fresco e queijo de qualidade.",
-    "img/italia.jpg"
-  );
-});
-
-btnJapao.addEventListener("click", () => {
-  atualizarCard(
-    "Sushi Japonês",
-    "Pequenos pedaços de arte culinária feitos com arroz temperado e peixe fresco.",
-    "img/japao.jpg"
-  );
-});
-
-btnMexico.addEventListener("click", () => {
-  atualizarCard(
-    "Taco Mexicano",
-    "Tortilla crocante recheada com carne temperada, alface, queijo e muito sabor!",
-    "img/mexico.jpg"
-  );
-});
-
-//  Tema Claro/Escuro 
-btnTema.addEventListener("click", () => {
-  if (body.classList.contains("claro")) {
-    body.classList.replace("claro", "escuro");
-    btnTema.textContent = "Tema Claro";
-  } else {
-    body.classList.replace("escuro", "claro");
-    btnTema.textContent = "Tema Escuro";
-  }
-});
+// executa assim que a pagina carregar
+criarCards();
